@@ -14,6 +14,15 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
+app.set('x-powered-by', false)
+app.set('json spaces', 2);
+app.set('json replacer', function(key, value){
+  if (key === 'title')
+    return undefined;
+  else
+    return value;
+});
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
