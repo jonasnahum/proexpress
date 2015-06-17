@@ -30,6 +30,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/img', express.static(__dirname + '/public/images'));
 
 app.use(function(req, res, next){
     req.appName = app.get('appName');
