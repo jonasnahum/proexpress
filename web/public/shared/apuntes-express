@@ -1,0 +1,28 @@
+	EXPRESS
+//-e parametro para que lleve ejs.
+express [options] [dir]
+
+
+	ENVIRONMENT VARIABLES
+//le pasamos el valor test al app
+$ NODE_ENV=test node app
+//This will populate process.env.NODE_ENV. Try this script that prints NODE_ENV right back to you:
+$ NODE_ENV=test node -e 'console.log(process.env.NODE_ENV)'
+	CURL
+//GET
+$ curl http://localhost:3000
+$ curl http://localhost:3000/slow-request -i
+
+//POST 
+$ curl http://localhost:3000/body -d 'name=azat'
+$ curl -i http://localhost:3000/body -d 'name=azat&role=admin'
+$ curl -i -H "Content-Type: application/json" -d '{"username":"azat","password":"p@ss1"}' http://localhost:3000/body
+// curl command that sends an HTTP request with two cookies  curl http://127.0.0.1:8080 --cookie "Cho=Kim;Greet=Hello"
+
+//DELETE
+$ curl http://localhost:3000/purchase-orders/?_method=DELETE -X POST // needs the libreary method override
+ 
+-H option sets headers. 
+-d passes data. 
+-i enables verbose logging. creo que muestra los headers
+-X para el method.
