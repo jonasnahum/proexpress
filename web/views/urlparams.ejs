@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>url params</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <form method="get">
+        nombre: <input type="text" name="userName" />
+        password: <input type="text" name="password" />
+        <input type="submit" value="guardar" />
+    </form>
+    <div>
+        <h2>query string</h2>
+        <%= userName %> - <%= password %> 
+        
+        <h2>url params</h2>
+        <%= nombre %> - <%= apellido %> 
+    </div>
+  </body>
+</html>

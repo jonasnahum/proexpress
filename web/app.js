@@ -11,10 +11,17 @@ var methodOverride = require('method-override');
 var responseTime = require('response-time');
 var serveIndex = require('serve-index');
 var busboy = require('connect-busboy');
+var serveIndex = require('serve-index');
+
+var monadsFactory = require('./monads/monad');
+var monads = monadsFactory();
+
 
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var layouts = require('./routes/layouts');
+var urlparams = require('./routes/url');
 
 var app = express();
 
@@ -33,8 +40,11 @@ app.set('json replacer', function(key, value){
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
+
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.use(monads.setAppName(app));//al obj app le pone req.appName.
+app.use(monads.exampleOfPort(app));//pone el puerto a req.port.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -53,15 +63,15 @@ app.use(function(req, res, next){
 app.use(errorHandler());
 app.use(methodOverride('_method'));
 app.use(responseTime(4));//numero digitos
-var serveIndex = require('serve-index');
-    app.use('/shared', serveIndex(
+app.use('/shared', serveIndex(
         path.join('public','shared'),
         {'icons': true}
 ));
 app.use('/upload', busboy({immediate: true }));
-
 app.use('/', routes);
 app.use('/users', users);
+app.use('/layouts', layouts);
+app.use('/urlparams', urlparams );
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
