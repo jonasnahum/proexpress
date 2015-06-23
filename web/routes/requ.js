@@ -35,12 +35,14 @@ router.get('/headers', function(req, res){//oculta el sid de la cookie.
         cookie: JSON.stringify(req.signedCookies)
     });
 });
-router.get('/headers', function(req, res){//los headers se mandan en el request con curl o postman.
-    console.log(request.header('content-type'))
-    //request.get('Content-Type');
-    //request.get('content-type');
-    
-});
+router.get('/headers', function(req, res){
+  
+  res.render('headers', { 
+    header1: req.get('content-type') || '',
+    header2: req.header('Content-Type') || '',
+    header3: req.get('Content-type') || ''
+  });
+})
 
 
 module.exports = router;

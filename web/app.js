@@ -13,9 +13,6 @@ var serveIndex = require('serve-index');
 var busboy = require('connect-busboy');
 var serveIndex = require('serve-index');
 
-var router = express.Router();//canbuar a qye el router se imprima en la ruta.
-
-
 
 
 
@@ -29,8 +26,7 @@ var monads = monadsFactory();
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var layouts = require('./routes/layouts');
-var ParamsControllerFactory = require('./routes/url');
-var params = ParamsControllerFactory(router);
+var params = require('./routes/url');
 var requ = require('./routes/requ');
 
 
@@ -91,7 +87,7 @@ app.all('/layouts', reqHand);
 app.use('/', routes);
 app.use('/users', users);
 app.use('/layouts', layouts);
-app.use("/params", params.router);
+app.use("/params", params);
 app.use("/request", requ);
 
 
