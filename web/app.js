@@ -13,15 +13,26 @@ var serveIndex = require('serve-index');
 var busboy = require('connect-busboy');
 var serveIndex = require('serve-index');
 
+var router = express.Router();//canbuar a qye el router se imprima en la ruta.
+
+
+
+
+
 var monadsFactory = require('./monads/monad');
 var monads = monadsFactory();
+
+
 
 
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var layouts = require('./routes/layouts');
-var urlparams = require('./routes/url');
+var ParamsControllerFactory = require('./routes/url');
+var params = ParamsControllerFactory(router);
+var requ = require('./routes/requ');
+
 
 var app = express();
 
@@ -47,7 +58,7 @@ app.use(monads.setAppName(app));//al obj app le pone req.appName.
 app.use(monads.exampleOfPort(app));//pone el puerto a req.port.
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(cookieParser("texto para signar las signedcookies"));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/img', express.static(__dirname + '/public/images'));
 app.use(session({
@@ -68,10 +79,21 @@ app.use('/shared', serveIndex(
         {'icons': true}
 ));
 app.use('/upload', busboy({immediate: true }));
+
+
+var reqHand = function (request, response) {
+    response.send("hola soy un handler");
+}
+
+app.all('/layouts', reqHand);
+
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/layouts', layouts);
-app.use('/urlparams', urlparams );
+app.use("/params", params.router);
+app.use("/request", requ);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
